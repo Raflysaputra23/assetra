@@ -1,0 +1,7 @@
+[auth.email.template.signup_confirmation]
+subject = "Konfirmasi Akun Anda di Assetra!"
+content_path = "./templates/signup_confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Reset Password Assetra - Kode Verifikasi Anda"
+content_path = "./templates/password_reset.html"
