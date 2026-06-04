@@ -31,7 +31,7 @@ const FormLogin = () => {
                         setMessage("Akun Anda sedang ditangguhkan/suspend");
                         setStatus(false);
                     } else {
-                        setMessage("Login gagal");
+                        setMessage("Username atau password salah");
                         setStatus(false);
                     }
                     setAlert(true);
