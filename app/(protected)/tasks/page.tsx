@@ -94,7 +94,18 @@ export default function Tasks() {
         e.preventDefault();
 
         if (!active || !user) return;
-        if (!form.description.trim()) return toast.error("Deskripsi wajib diisi");
+        if (!form.description.trim() || !form.action_taken.trim()) {
+            return toast.error("Deskripsi wajib diisi");
+        }
+
+        if(form.description.length < 5 && form.action_taken.length < 5) {
+            return toast.error("Deskripsi dan Tindakan minimal 5 karakter");
+        } else if(form.description.length < 5) {
+            return toast.error("Deskripsi minimal 5 karakter");
+        } else if(form.action_taken.length < 5) {
+            return toast.error("Tindakan minimal 5 karakter");
+        }
+
         
         setLoadingForm(true);
         const supabase = supabaseRef.current;

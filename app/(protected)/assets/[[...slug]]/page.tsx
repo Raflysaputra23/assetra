@@ -418,7 +418,7 @@ const Assets = ({ params }: { params: Promise<{ slug?: string[] }> }) => {
                   <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Laptop..." required />
                 </div>
                 <div className="space-y-2 col-span-2">
-                  <Label className="after:content-['*'] after:-ml-1 after:text-destructive">Kondisi Aset</Label>
+                  <Label className="after:content-['*'] after:-ml-1 after:text-destructive">Deskripsi Kondisi Aset</Label>
                   <Input value={form.condition_desc} onChange={(e) => setForm({ ...form, condition_desc: e.target.value })} placeholder="Kondisi aset..." required />
                 </div>
                 <div className="space-y-2">
