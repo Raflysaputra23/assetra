@@ -10,9 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Wrench, CalendarClock, MapPin, Loader2, Clock } from "lucide-react";
-import { StatusBadge, PriorityBadge } from "@/components/Badges";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -61,7 +59,7 @@ export default function Tasks() {
     const [tasks, setTasks] = useState<any[]>([]);
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState<any | null>(null);
-    const [form, setForm] = useState({ description: "", action_taken: "", cost: 0, status: "completed" as any });
+    const [form, setForm] = useState({ description: "", action_taken: "", cost: 0 });
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingForm, setLoadingForm] = useState<boolean>(false);
     const supabaseRef = useRef(createClient());
@@ -86,7 +84,7 @@ export default function Tasks() {
 
     const openReport = (t: any) => {
         setActive(t);
-        setForm({ description: "", action_taken: "", cost: 0, status: "completed" });
+        setForm({ description: "", action_taken: "", cost: 0 });
         setOpen(true);
     };
 
@@ -116,15 +114,11 @@ export default function Tasks() {
             description: form.description,
             action_taken: form.action_taken,
             cost: Number(form.cost) || 0,
-            status: form.status as any,
         });
         if (error) return toast.error(error.message);
-        if (form.status === "completed") {
-            await supabase.from("maintenance_schedules").update({ status: "completed" }).eq("id", active.id);
-        } else {
-            await supabase.from("maintenance_schedules").update({ status: "ongoing" }).eq("id", active.id);
-        }
-
+       
+        await supabase.from("maintenance_schedules").update({ status: "completed" }).eq("id", active.id);
+        
         toast.success("Laporan dikirim");
         setOpen(false);
         load();
@@ -178,23 +172,11 @@ export default function Tasks() {
                             <Textarea value={form.action_taken}
                                 onChange={(e) => setForm({ ...form, action_taken: e.target.value })} />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label>Biaya (Rp)</Label>
                                 <Input type="number" min={0} value={form.cost}
                                     onChange={(e) => setForm({ ...form, cost: Number(e.target.value) })} />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Status</Label>
-                                <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="pending">Pending</SelectItem>
-                                        <SelectItem value="completed">Selesai</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Batal</Button>
                             <Button disabled={loadingForm} type="submit" className="gradient-primary text-primary-foreground border-0">{loadingForm ? <span className="flex items-center gap-2">Menigirm... <Loader2 className="animate-spin" /></span> : "Kirim"}</Button>
