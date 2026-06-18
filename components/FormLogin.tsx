@@ -1,6 +1,6 @@
 "use client"
 
-import { Lock, Mail } from "lucide-react"
+import { Eye, EyeClosed, Lock, Mail } from "lucide-react"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import { useActionState, useEffect, useState } from "react"
@@ -17,6 +17,7 @@ const FormLogin = () => {
     const [alert, setAlert] = useState(false);
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState(false);
+    const [eye, setEye] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -79,8 +80,9 @@ const FormLogin = () => {
                     <Label htmlFor="si-pwd">Password</Label>
                     <div className="relative">
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input id="si-pwd" name="password" type="password" placeholder="••••••••"
-                            className="pl-9" required />
+                        <Input id="si-pwd" name='password' type={eye ? 'text' : 'password'} placeholder="••••••••"
+                            className="pl-9 pr-9" required />
+                        {eye ? <Eye onClick={() => setEye(false)} className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/> : <EyeClosed onClick={() => setEye(true)} className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />}
                     </div>
                     <p className="text-destructive text-xs -mt-1">{state && state?.error?.password}</p>
                 </div>
